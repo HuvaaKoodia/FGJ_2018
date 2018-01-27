@@ -38,8 +38,18 @@ public class MoveRect : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointer
 	public void OnEndDrag(PointerEventData eventData)
 	{
 		dragging = false;
-		Rect r = new Rect(0, 0, Screen.width, Screen.height);
-		if(!r.Contains(parentRect.anchoredPosition) && !r.Contains(parentRect.anchoredPosition + parentRect.sizeDelta))
+		Rect r = new Rect(0, 38, Screen.width, Screen.height);
+		var size = parentRect.sizeDelta;
+
+		bool topInside = r.Contains(parentRect.anchoredPosition);
+		bool topRightInside = r.Contains(parentRect.anchoredPosition+ Vector2.right * size.x);
+		bool bottomInside = r.Contains(parentRect.anchoredPosition + Vector2.down * size.y);
+		bool bottomRightInside = r.Contains(parentRect.anchoredPosition + new Vector2(size.x, -size.y));
+
+		if(
+			(!topInside && !topRightInside) ||
+			(!topInside && !topRightInside && !bottomInside && !bottomRightInside)
+		)
 		{
 			parentRect.anchoredPosition = r.center;
 		}

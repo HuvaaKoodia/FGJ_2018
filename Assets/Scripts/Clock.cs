@@ -26,9 +26,6 @@ public class Clock : MonoBehaviour {
         }
 	}
     void UpdateTime() {
-        currentHour = System.DateTime.Now.Hour;
-        currentMinute = System.DateTime.Now.Minute;
-        string AMPM = currentHour < 12 ? " AM" : " PM";
-        clock.text = currentHour.ToString() + ":" + currentMinute.ToString() + AMPM;
+		clock.text = System.DateTime.Now.ToShortTimeString();
     }
 }
