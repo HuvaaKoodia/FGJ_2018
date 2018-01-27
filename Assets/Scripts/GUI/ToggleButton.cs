@@ -24,6 +24,7 @@ public class ToggleButton : MonoBehaviour {
 		if(toggleField.interactable) {
 			button.GetComponentInChildren<Text>().text = "Off";
 		} else {
+			toggleField.text = "";
 			button.GetComponentInChildren<Text>().text = "On";	
 		}
 	}
