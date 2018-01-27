@@ -7,6 +7,10 @@ public class SendData : MonoBehaviour {
 
 	public InputField dataInput;
 
+	public InputField server1;
+	public InputField server2;
+	public InputField server3;
+
 	// Use this for initialization
 	void Start () {
 		
