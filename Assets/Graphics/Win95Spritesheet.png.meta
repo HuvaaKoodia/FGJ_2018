@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: aa8363fa5a08f4cffbff6af1cf0b43e8
-timeCreated: 1517065723
+timeCreated: 1517077417
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -69,6 +69,7 @@ TextureImporter:
     21300124: KeysAndLock
     21300126: Keys
     21300128: ConcaveElement_Black
+    21300130: MSDOSSmall
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -415,7 +416,7 @@ TextureImporter:
       name: Computer
       rect:
         serializedVersion: 2
-        x: 65
+        x: 64
         y: 506
         width: 32
         height: 32
@@ -490,8 +491,22 @@ TextureImporter:
         width: 31
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 3, y: 3, z: 3, w: 3}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: MSDOSSmall
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 538
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0

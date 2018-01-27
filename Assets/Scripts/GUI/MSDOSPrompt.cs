@@ -7,46 +7,33 @@ public class MSDOSPrompt : MonoBehaviour
 {
 	#region variables
 
-	public Window window;
-
-	public class DosProgram
-	{
-		//Dictionary<string, DosNode> nodeTable;
-		public DosNode startNode;
-
-		public DosProgram()
-		{
-			//nodeTable = new Dictionary<string, DosNode>();
-		}
-
-		//public void AddNode(DosNode node)
-		//{
-		//	nodeTable.Add(node);
-		//}
-	}
-
 	public class DosNode
 	{
 		public List<string> startTextLines;
 		public Dictionary<string, DosNode> choices;
 
 		public bool showChoices = true;
+		public string name;
 
-		public DosNode()
+		public DosNode(string name)
 		{
+			this.name = name;
 			choices = new Dictionary<string, DosNode>();
 			startTextLines = new List<string>();
 		}
 	}
 
-	public InputField inputField;
-	IEnumerator programEnumerator;
 	public const string homeAddress = "1.2.3.4";
 	public const string server1_1Address = "12.2.41.77";
 	public const string server2_1Address = "edu.Kamk.fi";
 	public const string server3_1Address = "corp.eztech.biz";
 	public const string server4Address = "target.goal.destination";
 
+	public Window window;
+	public InputField textArea, commandField;
+	public Scrollbar scrollbar;
+
+	IEnumerator programEnumerator;
 	#endregion
 
 	#region initialization
@@ -54,24 +41,22 @@ public class MSDOSPrompt : MonoBehaviour
 	private void Awake()
 	{
 		window.onWindowOpen.AddListener(OnOpen);
+
 	}
 
 	private void OnOpen()
 	{
-		inputField.text = "Microsoft(R) Windows 95\n    (C)Copyright Microsoft Corp 1981-1995\n";
+		textArea.text = "Microsoft(R) Windows 95\n    (C)Copyright Microsoft Corp 1981-1995\n";
+		commandField.text = "";
 
-		var program = new DosProgram();
+		var serverInputNode = new DosNode("");
+		var homeConnections = new DosNode("");
+		var server1_1Connections = new DosNode(server1_1Address);
+		var server2_1Connections = new DosNode(server2_1Address);
+		var server3_1Connections = new DosNode(server3_1Address);
+		var server4Connections = new DosNode(server4Address);
 
-		var serverInputNode = new DosNode();
-		var homeConnections = new DosNode();
-		var server1_1Connections = new DosNode();
-		var server2_1Connections = new DosNode();
-		var server3_1Connections = new DosNode();
-		var server4Connections = new DosNode();
-
-		program.startNode = serverInputNode;
-
-		serverInputNode.startTextLines.Add("Input start server address:");
+		serverInputNode.startTextLines.Add("Input server address:");
 
 		serverInputNode.showChoices = false;
 		serverInputNode.choices.Add(homeAddress, homeConnections);
@@ -107,10 +92,12 @@ public class MSDOSPrompt : MonoBehaviour
 		server4Connections.startTextLines.Add("This server has no forward connections.");
 		server4Connections.startTextLines.Add("Input q to quit.");
 
+		server4Connections.choices.Add("q", null);
+
 		if(programEnumerator != null)
 			StopCoroutine(programEnumerator);
 
-		programEnumerator = ProcessProgramCoroutine(program);
+		programEnumerator = ProcessProgramCoroutine(serverInputNode);
 		StartCoroutine(programEnumerator);
 	}
 
@@ -126,17 +113,23 @@ public class MSDOSPrompt : MonoBehaviour
 
 	#region private interface
 
-	IEnumerator ProcessProgramCoroutine(DosProgram program)
+	IEnumerator ProcessProgramCoroutine(DosNode node)
 	{
-		var node = program.startNode;
+		scrollbar.value = 1;
+
 		while(node != null)
 		{
-			inputField.readOnly = true;
+			commandField.readOnly = true;
 			yield return new WaitForSeconds(0.9f);
 
 			for(int i = 0; i < node.startTextLines.Count; i++)
 			{
-				inputField.text += "\n"+ node.startTextLines[i];
+				textArea.text += "\n"+ node.startTextLines[i];
+				yield return null;
+				scrollbar.value = 0;
+
+				Canvas.ForceUpdateCanvases();
+				LayoutRebuilder.ForceRebuildLayoutImmediate(window.GetComponent<RectTransform>());
 				yield return new WaitForSeconds(0.4f);
 			}
 
@@ -145,26 +138,59 @@ public class MSDOSPrompt : MonoBehaviour
 				foreach(var choice in node.choices)
 				{
 					if(choice.Value == null) continue;
-					inputField.text += string.Format("\n   {0} - {1}", choice.Key, choice.Value);
+					textArea.text += string.Format("\n   {0} - {1}", choice.Key, choice.Value.name);
+					yield return null;
+					scrollbar.value = 0;
+
+					Canvas.ForceUpdateCanvases();
+					LayoutRebuilder.ForceRebuildLayoutImmediate(window.GetComponent<RectTransform>());
 					yield return new WaitForSeconds(0.4f);
 				}
 			}
 
 			while(true)
 			{
-				inputField.text += "\n";
+				//textArea.text += "\n";
 				int inputTextLineCount = GetTextLineCount();
 
-				inputField.readOnly = false;
+				commandField.readOnly = false;
+				commandField.text = "";
 
-				while(inputTextLineCount == GetTextLineCount())
+				yield return null;
+				scrollbar.value = 0;
+
+				yield return null;
+
+				commandField.Select();
+				Canvas.ForceUpdateCanvases();
+				LayoutRebuilder.ForceRebuildLayoutImmediate(window.GetComponent<RectTransform>());
+
+				bool notSelected = true;
+				while(true)
+				{
+					if(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject == commandField.gameObject)
+					{
+						notSelected = false;
+					}
+					else if (notSelected)
+						commandField.Select();
+
+					if(Input.anyKeyDown)
+					{
+						commandField.Select();
+					}
+						
+					if(Input.GetKeyDown(KeyCode.Return)) break;
 					yield return null;
-
-				inputField.readOnly = true;
+				}
+				commandField.readOnly = true;
+				string input = commandField.text;
+				commandField.text = "";
+				textArea.text += "\n" + input;
+				scrollbar.value = 0;
 
 				yield return new WaitForSeconds(0.3f);
 
-				string input = inputField.text.Substring(inputField.text.LastIndexOf('\n'));
 				DosNode nextNode;
 				if(node.choices.TryGetValue(input, out nextNode))
 				{
@@ -172,18 +198,21 @@ public class MSDOSPrompt : MonoBehaviour
 					break;
 				} else
 				{
-					inputField.text += "\nBad command";
+					textArea.text += "\nBad command";
+					scrollbar.value = 0;
+					yield return null;
 				}
 			}
 		}
 
-		inputField.text += "\nProgram terminated";
+		textArea.text += "\nProgram terminated";
 		programEnumerator = null;
+		scrollbar.value = 0;
 	}
 
 	int GetTextLineCount()
 	{
-		return inputField.text.Split('\n').Length;
+		return textArea.text.Split('\n').Length;
 	}
 
 	#endregion
