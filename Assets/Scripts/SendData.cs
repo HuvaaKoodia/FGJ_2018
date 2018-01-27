@@ -11,9 +11,14 @@ public class SendData : MonoBehaviour {
 	public InputField server2;
 	public InputField server3;
 
+	public Window networkWindow;
+	public Window transmissionWindow;
+
+	AudioManager sound;
+
 	// Use this for initialization
 	void Start () {
-		
+		sound = GameObject.Find("Audio").GetComponent<AudioManager>();
 	}
 	
 	// Update is called once per frame
@@ -22,6 +27,8 @@ public class SendData : MonoBehaviour {
 	}
 
 	public void Send() {
+		sound.dial.Play();
+		networkWindow.Open();
 		print("Send data: " + dataInput.text);
 	}
 }
