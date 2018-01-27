@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Globalization;
 
 public class TextArea : MonoBehaviour 
 {
@@ -12,6 +13,8 @@ public class TextArea : MonoBehaviour
 	public Text text;
 	[TextArea(1,200)]
 	public string startText;
+
+	public bool missionTextHack = false;
 #endregion
 #region initialization
 	private void Start () 
@@ -21,8 +24,14 @@ public class TextArea : MonoBehaviour
 		if(inputField)
 			text.GetComponent<LayoutElement>().minWidth = window.GetComponent<RectTransform>().sizeDelta.x - 30;
 
-		if (inputField && startText != "")
+		if(inputField && startText != "")
+		{
+			if(missionTextHack)
+			{
+				startText = string.Format(startText, PortScanner.server4Address, System.DateTime.Now.Add(new System.TimeSpan(0, 30, 0)).ToShortTimeString());
+			}
 			inputField.text = startText;
+		}
 	}
 #endregion
 #region logic
