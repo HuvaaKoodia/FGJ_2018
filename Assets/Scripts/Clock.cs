@@ -7,17 +7,22 @@ using UnityEngine.Events;
 public class Clock : MonoBehaviour {
     Text clock;
     int currentHour, currentMinute;
+    float endTime = 1800, playedTime;
 
-    //public UnityEvent 
-	void Start () {
+    public UnityEvent endGame;
+
+    void Start () {
         clock = GetComponentInChildren<Text>();
         UpdateTime();
     }
 	
-	// Update is called once per frame
 	void Update () {
 		if(System.DateTime.Now.Minute != currentMinute) {
             UpdateTime();
+        }
+        playedTime += Time.deltaTime;
+        if(playedTime > endTime) {
+            endGame.Invoke();
         }
 	}
     void UpdateTime() {
