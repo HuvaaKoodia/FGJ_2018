@@ -16,4 +16,8 @@ public class AudioManager : MonoBehaviour {
 	void Update () {
 		
 	}
+
+	public void StopDial() {
+		dial.Stop();
+	}
 }
