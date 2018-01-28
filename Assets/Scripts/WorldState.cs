@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class WorldState : MonoBehaviour {
 
-	public static bool ServerOpen1;
-	public static bool ServerOpen2;
-	public static bool ServerOpen3;
+	public static bool ServerOpen1 = true;
+	public static bool ServerOpen2 = true;
+	public static bool ServerOpen3 = true;
 
 	public static bool Server1HasEmails = true;
 

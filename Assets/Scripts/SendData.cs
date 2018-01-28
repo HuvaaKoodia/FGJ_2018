@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SendData : MonoBehaviour {
 
-	public bool inputDataEncrypted;
+	public bool inputDataEncrypted, inputDataUseful;
 	public int extraConnectionCount = 0;
 
 	public InputField dataInput;
@@ -25,7 +25,7 @@ public class SendData : MonoBehaviour {
 	int serverIndex;
 	bool validConnection;
 
-	static readonly float CONNECTION_TIME = 10f;
+	static readonly float CONNECTION_TIME = 6f;
 
 	// Use this for initialization
 	void Awake () {
@@ -46,16 +46,10 @@ public class SendData : MonoBehaviour {
 		}
 	}
 
+	bool server1Success = false, server2Success = false, server3Success = false;
 	void Connect() {
 
 		inputDataEncrypted = false;
-		extraConnectionCount = 0;
-		bool server1Success = false, server2Success = false, server3Success = false;
-
-		// Debug
-		WorldState.ServerOpen1 = true;
-		WorldState.ServerOpen2 = true;
-		WorldState.ServerOpen3 = true;
 
 		var error = "Connection failed.";
 
@@ -145,12 +139,23 @@ public class SendData : MonoBehaviour {
 
 
 			extraConnectionCount = 0;
-			if(server1Success) extraConnectionCount++;
-			if(server2Success) extraConnectionCount++;
-			if(server3Success) extraConnectionCount++;
+			if(server1Success) extraConnectionCount += 1;
+			if(server2Success) extraConnectionCount += 1;
+			if(server3Success) extraConnectionCount += 1;
 
 			inputDataEncrypted = false;
-			//if (dataInput.text.Trim() == ""
+			inputDataUseful = false;
+
+			if(dataInput.text == "crocodile is down sending more ducks beware of the lion")
+			{
+				inputDataEncrypted = false;
+				inputDataUseful = true;
+			}
+			else if(dataInput.text.Trim() == "0bf40e341b9d4315ecff0e0e9da140b4")
+			{
+				inputDataEncrypted = true;
+				inputDataUseful = true;
+			}
 
 			sound.dial.Stop();
 			transmissionWindow.Open();
@@ -168,6 +173,8 @@ public class SendData : MonoBehaviour {
 	}
 
 	public void Send() {
+
+		server1Success = false; server2Success = false; server3Success = false;
 
 		// End server must be defined
 		if(server4.text.Trim() == "") {
