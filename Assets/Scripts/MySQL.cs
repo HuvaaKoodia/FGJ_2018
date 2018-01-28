@@ -31,20 +31,20 @@ public class MySQL : MonoBehaviour {
         Database db = databases[serverIndex];
         int tableIndex = tableSelection.value;
 
-        output.text += "+----+----------+-----------------------------+" + "\n";
-        output.text += " | id   | User      | Password                       |" + "\n";
-        output.text += "+----+----------+-----------------------------+" + "\n";
+        //output.text += "+----+----------+-----------------------------+" + "\n";
+        output.text += string.Format("{0,-10}{1,-10}{2,-10}\n\n", "id", "name", "password");
+        //output.text += "+----+----------+-----------------------------+" + "\n";
 
         for (int i = 0; i < db.tables[tableIndex].rows.Count; i++) {
             string line = "";
             for (int j = 0; j < db.tables[tableIndex].rows[i].values.Count; j++) {
-                
-                line += db.tables[tableIndex].rows[i].values[j].PadRight(5 + j * 10);
+
+                line += string.Format("{0,-10}", db.tables[tableIndex].rows[i].values[j]);
             }
             output.text += line + "\n";
         }
     }
-
+    
     public void ConnectToServer() {
         for (int i = 0; i < databases.Count; i++) {
             if(databases[i].serverAddress == serverInput.text) {

@@ -3767,18 +3767,18 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 0b9f44c118ae44bdfa64a898a7221c05, type: 3}
-    m_FontSize: 26
+    m_Font: {fileID: 12800000, guid: e5a98e178b910244e9782a7ef696ff6b, type: 3}
+    m_FontSize: 12
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 2
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 0.4
+    m_LineSpacing: 1
   m_Text: 
 --- !u!222 &807978621
 CanvasRenderer:
@@ -5635,6 +5635,11 @@ Prefab:
       propertyPath: title
       value: MySQL
       objectReference: {fileID: 0}
+    - target: {fileID: 224276288207435254, guid: 715ad3141a7164703b49e595ba509301,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 715ad3141a7164703b49e595ba509301, type: 2}
   m_IsPrefabParent: 0
@@ -6165,21 +6170,21 @@ MonoBehaviour:
   output: {fileID: 1197312843}
   tableSelection: {fileID: 743590970}
   databases:
-  - serverAddress: firstserver
+  - serverAddress: asd
     tables:
     - name: Users
       rows:
       - values:
         - 1
-        - asdasd
+        - aa
         - sdfsdfsdf
       - values:
         - 2
-        - dasdd
+        - aaa
         - sdfsdfsdgsdg
       - values:
         - 3
-        - sdfsdgsdg
+        - aaaa
         - sdfasad
     - name: Admins
       rows: []
