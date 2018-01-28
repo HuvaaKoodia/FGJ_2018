@@ -12,7 +12,11 @@ public class WorldState : MonoBehaviour {
 
 	public const string homeAddress = "1.2.3.4";
 	public const string server1_1Address = "65.201.411.771";
-	public const string server2_1Address = "edu.Kajak.fi";
+	public const string server2_1Address = "edu.wideforest.com";
 	public const string server3_1Address = "corp.eztech.biz";
 	public const string server4Address = "919.939.989.929";
+
+
+	public const string server2_userDatabaseAddress = "edu.wideforest.com/3306";
+	//public const string server2_DatabaseAddress = "edu.wideforest.com/3306";
 }

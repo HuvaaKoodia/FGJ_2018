@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public delegate DosNode CustomDosNodeAction(string input);
+public delegate DosNode CustomDosNodeEvent(string input);
 public delegate bool StrintToBoolEvent(string input);
+public delegate string StringEvent();
 
 public class DosNode
 {
@@ -16,10 +17,11 @@ public class DosNode
 
 	public bool showChoices = true;
 	public string name;
-	public CustomDosNodeAction customChoiceInputAction;
+	public CustomDosNodeEvent customChoiceInputAction;
 	public System.Action onStartEvent;
 	public StrintToBoolEvent onChoiceAvailable;
-	
+	public StringEvent customChoiceName;
+
 	public DosNode(string name)
 	{
 		this.name = name;
@@ -116,7 +118,12 @@ public class MSDOSPrompt : MonoBehaviour
 					if(choice.Value == null) continue;
 					if(node.onChoiceAvailable != null && !node.onChoiceAvailable(choice.Key)) continue;
 
-					textArea.text += string.Format("\n   {0} - {1}", choice.Key, choice.Value.name);
+					string name = choice.Value.name;
+
+					if (choice.Value.customChoiceName != null)
+						name = choice.Value.customChoiceName();
+
+					textArea.text += string.Format("\n   {0} - {1}", choice.Key, name);
 					yield return null;
 					scrollbar.value = 0;
 
