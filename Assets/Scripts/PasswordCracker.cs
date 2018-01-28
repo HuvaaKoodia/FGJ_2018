@@ -10,6 +10,12 @@ public class PasswordCracker : MonoBehaviour {
     public Scrollbar loadingbar;
     public Text log;
 
+    public void PlaySong() {
+        FindObjectOfType<AudioManager>().cracksong.Play();
+    }
+    public void StopSong() {
+        FindObjectOfType<AudioManager>().cracksong.Stop();
+    }
     public void SolveHash() {
         StartCoroutine(ProgressBar(5f));
         log.text = "";
