@@ -16,7 +16,6 @@ public class WorldState : MonoBehaviour {
 	public const string server3_1Address = "corp.eztech.biz";
 	public const string server4Address = "919.939.989.929";
 
-
 	public const string server2_userDatabaseAddress = "edu.wideforest.com/3306";
 	//public const string server2_DatabaseAddress = "edu.wideforest.com/3306";
 }
