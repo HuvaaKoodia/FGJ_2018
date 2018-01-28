@@ -6,6 +6,7 @@ public class AudioManager : MonoBehaviour {
 
 	public AudioSource error;
 	public AudioSource dial;
+    public AudioSource startup;
 
 	// Use this for initialization
 	void Start () {
