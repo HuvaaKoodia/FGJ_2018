@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public delegate DosNode CustomDosNodeAction(string input);
+public delegate bool StrintToBoolEvent(string input);
 
 public class DosNode
 {
@@ -17,6 +18,7 @@ public class DosNode
 	public string name;
 	public CustomDosNodeAction customChoiceInputAction;
 	public System.Action onStartEvent;
+	public StrintToBoolEvent onChoiceAvailable;
 	
 	public DosNode(string name)
 	{
@@ -112,6 +114,8 @@ public class MSDOSPrompt : MonoBehaviour
 				foreach(var choice in node.choices)
 				{
 					if(choice.Value == null) continue;
+					if(node.onChoiceAvailable != null && !node.onChoiceAvailable(choice.Key)) continue;
+
 					textArea.text += string.Format("\n   {0} - {1}", choice.Key, choice.Value.name);
 					yield return null;
 					scrollbar.value = 0;

@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public class ServerAccess : MonoBehaviour 
 {
 #region variables
-	DosNode server1StartNode, adminPasswordNode, adminNode, badCredentialsNode, currentServerNode;
+	DosNode server1StartNode, adminPasswordNode, adminNode, badCredentialsNode;
 	string name;
+
+	public UnityEvent onServer1EmailDownloaded;
 #endregion
 #region initialization
 	private void Awake () 
@@ -15,7 +18,7 @@ public class ServerAccess : MonoBehaviour
 
 		var connectToServer1 = new DosNode("");
 
-		var server1StartNode = new DosNode("Menu");
+		server1StartNode = new DosNode("Menu");
 		var adminNameNode = new DosNode("Admin options");
 		adminPasswordNode = new DosNode("");
 		adminNode = new DosNode("");
@@ -24,12 +27,16 @@ public class ServerAccess : MonoBehaviour
 		var disconnectNode = new DosNode("Disconnect");
 		var downloadEmails = new DosNode("Download emails");
 		var removeEmails = new DosNode("Remove emails");
+		var addPortForwardException = new DosNode("Add port forwarding exception");
+		var addedHomeAddress = new DosNode("");
+		var addedServerAddress = new DosNode("");
+		var addedOtherAddress = new DosNode("");
 
 		startNode.programStartCommand = "Sacs -noW";
 
 		startNode.startTextLines.Add("Input server address to connect to:");
 		startNode.showChoices = false;
-		startNode.choices.Add(PortScanner.server1_1Address, connectToServer1);
+		startNode.choices.Add(WorldState.server1_1Address, connectToServer1);
 
 		connectToServer1.startTextLines.Add("Connecting to server");
 		connectToServer1.startTextLines.Add(".");
@@ -40,31 +47,54 @@ public class ServerAccess : MonoBehaviour
 
 		server1StartNode.startTextLines.Add("Welcome to X-server.");
 
-		server1StartNode.choices.Add("1", adminNameNode);
-		server1StartNode.choices.Add("2", emailNode);
-		server1StartNode.choices.Add("3", disconnectNode);
+		server1StartNode.choices.Add("a", adminNameNode);
+		server1StartNode.choices.Add("e", emailNode);
+		server1StartNode.choices.Add("d", disconnectNode);
 
 		adminNameNode.startTextLines.Add("Name:");
-		adminNameNode.onStartEvent += SetCurrentServerToServer1;
 		adminNameNode.customChoiceInputAction += OnNameInput;
 
 		adminPasswordNode.startTextLines.Add("Password:");
-		adminNameNode.customChoiceInputAction += OnPasswordInput;
+		adminPasswordNode.customChoiceInputAction += OnPasswordInput;
 
-		badCredentialsNode.startTextLines.Add("Access denied.");
-		badCredentialsNode.customChoiceInputAction += GoBackToServerStart;
+		adminNode.startTextLines.Add("Admin options:");
+		adminNode.choices.Add("e", addPortForwardException);
+		adminNode.choices.Add("m", server1StartNode);
+
+		addPortForwardException.startTextLines.Add("Input exception address:");
+		addPortForwardException.showChoices = false;
+		addPortForwardException.choices.Add(WorldState.homeAddress, addedHomeAddress);
+		addPortForwardException.choices.Add(WorldState.server1_1Address, addedServerAddress);
+		addPortForwardException.choices.Add(WorldState.server2_1Address, addedOtherAddress);
+		addPortForwardException.choices.Add(WorldState.server3_1Address, addedOtherAddress);
+		addPortForwardException.choices.Add(WorldState.server4Address, addedOtherAddress);
+
+		addedHomeAddress.startTextLines.Add("Exception added");
+		addedHomeAddress.nextNode = adminNode;
+
+		addedOtherAddress.startTextLines.Add("Exception added");
+		addedOtherAddress.nextNode = adminNode;
+
+		addedServerAddress.startTextLines.Add("Cannot add local address to exceptions");
+		addedServerAddress.nextNode = adminNode;
+
+		badCredentialsNode.startTextLines.Add("Access denied");
+		badCredentialsNode.customChoiceInputAction += GoBackToServer1Start;
 
 		disconnectNode.startTextLines.Add("Disconnect");
 
-		emailNode.choices.Add("1", downloadEmails);
-		emailNode.choices.Add("2", removeEmails);
-		emailNode.choices.Add("3", server1StartNode);
+		emailNode.onChoiceAvailable += OnEmailChoiceAvailable;
+		emailNode.choices.Add("d", downloadEmails);
+		emailNode.choices.Add("r", removeEmails);
+		emailNode.choices.Add("m", server1StartNode);
 
-		downloadEmails.startTextLines.Add("Emails downloaded!");
-		downloadEmails.nextNode = server1StartNode;
+		downloadEmails.startTextLines.Add("Emails downloaded");
+		downloadEmails.onStartEvent += DownloadEmails;
+		downloadEmails.nextNode = emailNode;
 
-		removeEmails.startTextLines.Add("Emails removed!");
-		removeEmails.nextNode = server1StartNode;
+		removeEmails.startTextLines.Add("Emails removed");
+		removeEmails.onStartEvent += RemoveEmails;
+		removeEmails.nextNode = emailNode;
 
 		GetComponent<MSDOSPrompt>().startNode = startNode;
 
@@ -79,10 +109,6 @@ public class ServerAccess : MonoBehaviour
 #region private interface
 #endregion
 #region events
-	void SetCurrentServerToServer1()
-	{
-		currentServerNode = server1StartNode;
-	}
 
 	DosNode OnNameInput(string input)
 	{
@@ -97,9 +123,26 @@ public class ServerAccess : MonoBehaviour
 		return badCredentialsNode;
 	}
 
-	DosNode GoBackToServerStart(string input)
+	DosNode GoBackToServer1Start(string input)
 	{
-		return currentServerNode;
+		return server1StartNode;
+	}
+
+	bool OnEmailChoiceAvailable(string input)
+	{
+		if(input == "d" || input == "r")
+			return WorldState.Server1HasEmails;
+		return true;
+	}
+
+	void RemoveEmails()
+	{
+		WorldState.Server1HasEmails = false;
+	}
+
+	void DownloadEmails()
+	{
+		onServer1EmailDownloaded.Invoke();
 	}
 #endregion
 }
