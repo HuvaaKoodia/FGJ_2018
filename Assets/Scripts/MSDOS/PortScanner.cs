@@ -5,11 +5,7 @@ using System.Collections.Generic;
 public class PortScanner : MonoBehaviour 
 {
 #region variables
-	public const string homeAddress = "1.2.3.4";
-	public const string server1_1Address = "65.201.411.771";
-	public const string server2_1Address = "edu.Kajak.fi";
-	public const string server3_1Address = "corp.eztech.biz";
-	public const string server4Address = "919.939.989.929";
+
 
 #endregion
 #region initialization
@@ -17,21 +13,21 @@ public class PortScanner : MonoBehaviour
 	{
 		var startNode = new DosNode("");
 		var homeConnections = new DosNode("");
-		var server1_1Connections = new DosNode(server1_1Address);
-		var server2_1Connections = new DosNode(server2_1Address);
-		var server3_1Connections = new DosNode(server3_1Address);
-		var server4Connections = new DosNode(server4Address);
+		var server1_1Connections = new DosNode(WorldState.server1_1Address);
+		var server2_1Connections = new DosNode(WorldState.server2_1Address);
+		var server3_1Connections = new DosNode(WorldState.server3_1Address);
+		var server4Connections = new DosNode(WorldState.server4Address);
 
 		startNode.programStartCommand = "PrtScn -f -u";
-		startNode.startTextLines.Add("Local server address:\n"+homeAddress+"\n");
+		startNode.startTextLines.Add("Local server address:\n"+WorldState.homeAddress+"\n");
 
 		startNode.startTextLines.Add("Input server address to inspect:");
 
 		startNode.showChoices = false;
-		startNode.choices.Add(homeAddress, homeConnections);
-		startNode.choices.Add(server1_1Address, server1_1Connections);
-		startNode.choices.Add(server2_1Address, server2_1Connections);
-		startNode.choices.Add(server3_1Address, server3_1Connections);
+		startNode.choices.Add(WorldState.homeAddress, homeConnections);
+		startNode.choices.Add(WorldState.server1_1Address, server1_1Connections);
+		startNode.choices.Add(WorldState.server2_1Address, server2_1Connections);
+		startNode.choices.Add(WorldState.server3_1Address, server3_1Connections);
 
 		var sharedTextLines = new List<string>();
 		sharedTextLines.Add("This server has forward connections.");

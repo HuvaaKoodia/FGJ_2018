@@ -26,6 +26,6 @@ public class Clock : MonoBehaviour {
         }
 	}
     void UpdateTime() {
-		clock.text = System.DateTime.Now.ToShortTimeString();
+		clock.text = System.DateTime.Now.ToString("hh:mm tt");
     }
 }
