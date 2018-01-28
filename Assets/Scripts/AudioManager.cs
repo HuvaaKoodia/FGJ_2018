@@ -8,6 +8,7 @@ public class AudioManager : MonoBehaviour {
 	public AudioSource dial;
     public AudioSource startup;
     public AudioSource tada;
+    public AudioSource bsod;
 
 
     // Use this for initialization
