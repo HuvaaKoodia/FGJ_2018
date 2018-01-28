@@ -25,8 +25,11 @@ public class SendData : MonoBehaviour {
 	static readonly float CONNECTION_TIME = 10f;
 
 	// Use this for initialization
-	void Start () {
-		sound = GameObject.Find("Audio").GetComponent<AudioManager>();
+	void Awake () {
+		if(sound == null) {
+			sound = GameObject.Find("Audio").GetComponent<AudioManager>();			
+		}
+		timer = 0f;
 	}
 	
 	// Update is called once per frame
