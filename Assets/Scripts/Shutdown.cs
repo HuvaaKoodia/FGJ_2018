@@ -19,7 +19,7 @@ public class Shutdown : MonoBehaviour {
         if (!Application.isEditor) {
             Application.Quit();
         } else {
-            UnityEditor.EditorApplication.isPlaying = false;
+            //UnityEditor.EditorApplication.isPlaying = false;
         }
     }
 }
