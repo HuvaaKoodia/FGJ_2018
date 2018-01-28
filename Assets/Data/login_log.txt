@@ -1,0 +1,23 @@
+Username        Hash                              Port        From          Latest  
+root            e975ce08421778096349ea4b90cdc584  tty1                      Mon Dec  9 10:44:30 +1100 1995
+bin                                                                         **Never logged in**
+daemon                                                                      **Never logged in**  
+adm                                                                         **Never logged in**  
+lp                                                                          **Never logged in**  
+sync                                                                        **Never logged in**  
+shutdown                                                                    **Never logged in**  
+halt                                                                        **Never logged in**  
+mail                                                                        **Never logged in**  
+uucp                                                                        **Never logged in**  
+operator                                                                    **Never logged in**  
+games                                                                       **Never logged in**  
+gopher                                                                      **Never logged in**  
+ftp                                                                         **Never logged in**  
+nobody                                                                      **Never logged in**  
+vcsa                                                                        **Never logged in**  
+saslauth                                                                    **Never logged in**  
+postfix                                                                     **Never logged in**  
+sshd                                                                        **Never logged in**  
+sysadmin        6831127aa99319c8f70d349f488cdaac  pts/1    10.0.2.2         Mon Dec  9 10:31:50 +1100 1995  
+dbus                                                                        **Never logged in**  
+joeroberts      fcca252a1baee7ed04ead9f38ba6ded1  pts/2    10.0.2.2         Mon Dec  9 10:39:24 +1100 1995  
