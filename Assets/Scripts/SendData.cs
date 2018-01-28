@@ -15,6 +15,7 @@ public class SendData : MonoBehaviour {
 	public Window networkWindow;
 	public Text networkText;
 	public Window transmissionWindow;
+	public WarningPopup warning;
 
 	AudioManager sound;
 	float timer;
@@ -90,10 +91,9 @@ public class SendData : MonoBehaviour {
 			transmissionWindow.Open();
 			print("Send data: " + dataInput.text);
 		} else if(serverIndex == 5) {
-			//TODO: error popup
-			print("Invalid pipe");
 			timer = 0;
 			networkWindow.Close();
+			warning.Open("Invalid pipe.\nAccess denied to link server.");
 		}
 
 	}
@@ -102,8 +102,7 @@ public class SendData : MonoBehaviour {
 
 		// End server must be defined
 		if(!server4.IsInteractable()) {
-			//TODO: error popup
-			print("Invalid pipe");
+			warning.Open("Invalid pipe.\nTarget not defined.");
 			networkWindow.Close();
 		} else {
 			sound.dial.Play();
