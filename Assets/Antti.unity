@@ -4278,7 +4278,7 @@ Prefab:
     - target: {fileID: 224875383635012984, guid: 715ad3141a7164703b49e595ba509301,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -7.0000305
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 1138204069150580, guid: 715ad3141a7164703b49e595ba509301, type: 2}
       propertyPath: m_IsActive
@@ -4847,8 +4847,10 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: New Text
+    m_LineSpacing: 0.7
+  m_Text: 'New Text
+
+    dadsa'
 --- !u!222 &1495633283
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6179,7 +6181,7 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1
+    m_LineSpacing: 0.7
   m_Text: Connecting ...
 --- !u!222 &1770723016
 CanvasRenderer:
@@ -6469,7 +6471,7 @@ Prefab:
     - target: {fileID: 224875383635012984, guid: 715ad3141a7164703b49e595ba509301,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -7.0000305
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 114696415850661878, guid: 715ad3141a7164703b49e595ba509301,
         type: 2}
