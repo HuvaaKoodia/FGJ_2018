@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class SendData : MonoBehaviour {
 
+	public bool inputDataEncrypted;
+	public int extraConnectionCount = 0;
+
 	public InputField dataInput;
 
 	public InputField server1;
@@ -45,6 +48,10 @@ public class SendData : MonoBehaviour {
 
 	void Connect() {
 
+		inputDataEncrypted = false;
+		extraConnectionCount = 0;
+		bool server1Success = false, server2Success = false, server3Success = false;
+
 		// Debug
 		WorldState.ServerOpen1 = true;
 		WorldState.ServerOpen2 = true;
@@ -67,11 +74,14 @@ public class SendData : MonoBehaviour {
 				goto Check;
 			}
 			timer += CONNECTION_TIME;
+			server1Success = true;
 			return;
 		} else if(serverIndex == 1) {
 			networkText.text += "\nLink 1 not defined";
 			timer += 1f;
 		}
+
+
 		if(serverIndex == 2 && server2.IsInteractable()) {
 			networkText.text += "\nConnecting to " + server2.text;
 			if(!WorldState.ServerOpen2) {
@@ -87,6 +97,7 @@ public class SendData : MonoBehaviour {
 				goto Check;
 			}
 			timer += CONNECTION_TIME;
+			server2Success = true;
 			return;
 		} else if(serverIndex == 2) {
 			networkText.text += "\nLink 2 not defined";
@@ -108,6 +119,7 @@ public class SendData : MonoBehaviour {
 				goto Check;
 			}
 			timer += CONNECTION_TIME;
+			server3Success = true;
 			return;
 		} else if(serverIndex == 3) {
 			networkText.text += "\nLink 3 not defined";
@@ -130,9 +142,23 @@ public class SendData : MonoBehaviour {
 		Check:
 
 		if(validConnection && serverIndex == 5) {
+
+
+			extraConnectionCount = 0;
+			if(server1Success) extraConnectionCount++;
+			if(server2Success) extraConnectionCount++;
+			if(server3Success) extraConnectionCount++;
+
+			inputDataEncrypted = false;
+			//if (dataInput.text.Trim() == ""
+
 			sound.dial.Stop();
 			transmissionWindow.Open();
 			print("Send data: " + dataInput.text);
+
+
+
+
 		} else if(!validConnection) {
 			timer = 0;
 			networkWindow.Close();

@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class Transmission : MonoBehaviour {
 
 	public Transform document;
 	public Scrollbar transferbar;
+
+	public UnityEvent OnEnd;
 
 	// Use this for initialization
 	void Awake () {
@@ -26,7 +29,7 @@ public class Transmission : MonoBehaviour {
 			transferbar.size = t / loadTime;
 			yield return null;
 		}
-		// TODO: End Game
-		print("WIN GAME");
+
+		OnEnd.Invoke();
 	}
 }

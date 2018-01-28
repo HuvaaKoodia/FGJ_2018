@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WarningPopup : MonoBehaviour {
-
+public class WarningPopup : MonoBehaviour 
+{
 	public Text warningText;
 	AudioManager sound;
 
