@@ -13,11 +13,14 @@ public class SendData : MonoBehaviour {
 	public InputField server4;
 
 	public Window networkWindow;
+	public Text networkText;
 	public Window transmissionWindow;
 
 	AudioManager sound;
 	float timer;
 	int serverIndex;
+	bool validConnection;
+
 	static readonly float CONNECTION_TIME = 10f;
 
 	// Use this for initialization
@@ -37,46 +40,82 @@ public class SendData : MonoBehaviour {
 	}
 
 	void Connect() {
-		
 		if(WorldState.ServerOpen1 && serverIndex == 1 && server1.IsInteractable()) {
-			// Show network window shit
+			networkText.text += "\nConnecting to " + server1.text;
 			timer += CONNECTION_TIME;
 			return;
+		} else if(!WorldState.ServerOpen1 && serverIndex == 1 && server1.IsInteractable()) {
+			validConnection = false;
+			timer += 1f;
+		} else if (serverIndex == 1) {
+			networkText.text += "\nLink 1 not defined";
+			timer += 1f;
 		}
 		if(WorldState.ServerOpen2 && serverIndex == 2 && server2.IsInteractable()) {
-			// Show network window shit
+			networkText.text += "\nConnecting to " + server2.text;
 			timer += CONNECTION_TIME;
 			return;
+		} else if(!WorldState.ServerOpen2 && serverIndex == 2 && server2.IsInteractable()) {
+			validConnection = false;
+			timer += 1f;
+		} else if (serverIndex == 2){
+			networkText.text += "\nLink 2 not defined";
+			timer += 1f;
 		}
 		if(WorldState.ServerOpen3 && serverIndex == 3 && server3.IsInteractable()) {
-			// Show network window shit
+			networkText.text += "\nConnecting to " + server3.text;
 			timer += CONNECTION_TIME;
 			return;
+		} else if(!WorldState.ServerOpen3 && serverIndex == 3 && server3.IsInteractable()) {
+			validConnection = false;
+			timer += 1f;
+		} else if (serverIndex == 3){
+			networkText.text += "\nLink 3 not defined";
+			timer += 1f;
 		}
-		if(serverIndex == 4 && server3.IsInteractable()) {
-			// Show network window shit
+		if(serverIndex == 4 && server4.IsInteractable()) {
+			networkText.text += "\nConnecting to " + server4.text;
 			timer += CONNECTION_TIME;
 			return;
+		} else if(serverIndex == 4 && !server1.IsInteractable()) {
+			validConnection = false;
+			timer += 1f;
+		} else if (serverIndex == 4){
+			networkText.text += "\nTarget Link not defined";
+			timer += 1f;
 		}
 
-		// TODO: Check if valid pipe connection
-
-		if(true) {
+		if(validConnection && serverIndex == 5) {
 			sound.dial.Stop();
 			transmissionWindow.Open();
 			print("Send data: " + dataInput.text);
+		} else if(serverIndex == 5) {
+			//TODO: error popup
+			print("Invalid pipe");
+			timer = 0;
+			networkWindow.Close();
 		}
 
 	}
 
 	public void Send() {
 
-		// TODO: Check valid pipe input
-
-		sound.dial.Play();
-		networkWindow.Open();
-		serverIndex = 0;
-		timer = CONNECTION_TIME; // Random?
-	
+		// End server must be defined
+		if(!server4.IsInteractable()) {
+			//TODO: error popup
+			print("Invalid pipe");
+			networkWindow.Close();
+		} else {
+			sound.dial.Play();
+			networkWindow.Open();
+			serverIndex = 0;
+			validConnection = true;
+			timer = CONNECTION_TIME; // Random?		
+		}
 	}
+
+	public void ResetNetworkText() {
+		networkText.text = "Connecting ...";
+	}
+
 }
