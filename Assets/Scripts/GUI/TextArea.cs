@@ -28,7 +28,7 @@ public class TextArea : MonoBehaviour
 		{
 			if(missionTextHack)
 			{
-				startText = string.Format(startText, WorldState.server4Address, System.DateTime.Now.Add(new System.TimeSpan(0, 30, 0)).ToString("hh:mm tt"));
+				startText = string.Format(startText, WorldState.serverAddress4, System.DateTime.Now.Add(new System.TimeSpan(0, 30, 0)).ToString("hh:mm tt"));
 			}
 			inputField.text = startText;
 		}

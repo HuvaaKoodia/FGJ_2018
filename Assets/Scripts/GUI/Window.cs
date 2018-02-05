@@ -24,6 +24,7 @@ public class Window : MonoBehaviour
 	{
 		gameObject.SetActive(true);
 		onWindowOpen.Invoke();
+		transform.SetAsLastSibling();
 	}
 
 	public void Close()
@@ -31,9 +32,14 @@ public class Window : MonoBehaviour
 		gameObject.SetActive(false);
 		onWindowClose.Invoke();
 	}
+
 #endregion
 #region private interface
 #endregion
 #region events
+	public void OnHelpButtonPressed()
+	{
+		WarningPopup.I.Open("Windows Help not installed!");
+	}
 #endregion
 }
