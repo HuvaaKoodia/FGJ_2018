@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Bluescreen : MonoBehaviour
 {
@@ -17,8 +18,7 @@ public class Bluescreen : MonoBehaviour
 	{
 		if(Time.time > inputTimer && Input.anyKeyDown)
 		{
-			Application.Quit();
-			print("Closing application");
+			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 		}
 	}
 }

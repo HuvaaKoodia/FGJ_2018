@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class SendData : MonoBehaviour
 {
-
 	public bool inputDataEncrypted, inputDataUseful;
 	public int extraConnectionCount = 0;
 
@@ -16,9 +15,8 @@ public class SendData : MonoBehaviour
 	public InputField server3;
 	public InputField server4;
 
-	public Window networkWindow;
+	public Window window, networkWindow, transmissionWindow;
 	public Text networkText;
-	public Window transmissionWindow;
 	public WarningPopup warning;
 
 	float timer;
@@ -187,6 +185,7 @@ public class SendData : MonoBehaviour
 		{
 			timer = 0;
 			networkWindow.Close();
+			window.canClose = true;
 			AudioManager.I.dial.Stop();
 			warning.Open("Invalid pipe.\n" + error);
 		}
@@ -206,10 +205,12 @@ public class SendData : MonoBehaviour
 			AudioManager.I.dial.Stop();
 			warning.Open("Invalid pipe.\nTarget not defined.");
 			networkWindow.Close();
+			window.canClose = true;
 		} else
 		{
 			AudioManager.I.dial.Play();
 			networkWindow.Open();
+			window.canClose = false;
 			serverIndex = 0;
 			validConnection = true;
 			timer = CONNECTION_TIME; // Random?		

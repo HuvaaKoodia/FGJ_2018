@@ -18,8 +18,7 @@ public class EncryptText : MonoBehaviour
 	void Start()
 	{
 		input.onValueChanged.AddListener(OnInputChanged);
-		OnInputChanged("");
-		output.interactable = false;
+		ResetProgress();
 	}
 	
 	// Update is called once per frame
@@ -63,5 +62,15 @@ public class EncryptText : MonoBehaviour
 	{
 		bool interactable = value != "";
 		encryptButton.interactable = interactable;
+	}
+	
+	public void ResetProgress()
+	{
+		input.text = "";
+		output.text = "";
+		timer = 0;
+		OnInputChanged("");
+		output.interactable = false;
+		waveAnimation.SetBool("Wave", false);
 	}
 }

@@ -28,7 +28,6 @@ public class MoveRect : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointer
 
 		var parentPos = parentRect.anchoredPosition;
 		offset = eventData.position - parentPos;
-		print(offset);
 		dragging = true;
 
 		if(!canMoveToFront) return;
@@ -40,7 +39,6 @@ public class MoveRect : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointer
 		if(!canMove) return;
 
 		parentRect.anchoredPosition = eventData.position - offset;
-
 	}
 
 	public void OnEndDrag(PointerEventData eventData)
